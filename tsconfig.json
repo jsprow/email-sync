@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "moduleResolution": "classic",
+    "moduleResolution": "node",
     "outDir": "./dist/",
     "rootDir": "./src/",
     "target": "es5",

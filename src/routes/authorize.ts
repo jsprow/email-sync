@@ -1,23 +1,39 @@
 import * as express from 'express';
-import { getAuthUrl } from '../helpers/auth';
-var router = express.Router();
+import { Response } from 'express';
+import { clearCookies, getTokenFromCode } from '../helpers/auth';
 
-/* GET /authorize. */
-router.get('/', function(req, res, next) {
-  // Get auth code
+const router = express.Router();
+
+router.get('/', async (req, res, next) => {
   const code = req.query.code;
 
-  // If code is present, use it
   if (code) {
-    res.render('index', { title: 'Home', debug: `Auth code: ${code}` });
+    let token: string;
+
+    try {
+      token = await getTokenFromCode(code, res);
+    } catch (error) {
+      res.render('error', {
+        title: 'Error',
+        message: 'Error exchanging code for token',
+        error: error
+      });
+    }
+
+    res.redirect('/');
   } else {
-    // Otherwise complain
     res.render('error', {
       title: 'Error',
       message: 'Authorization error',
       error: { status: 'Missing code parameter' }
     });
   }
+});
+
+router.get('/signout', (req, res, next) => {
+  clearCookies(res);
+
+  res.redirect('/');
 });
 
 export default router;

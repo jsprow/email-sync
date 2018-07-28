@@ -1,0 +1,15 @@
+extends layout
+
+block mail
+  h2 Inbox
+  table.table
+    thead.thead-light
+      th(scope="col") From
+      th(scope="col") Subject
+      th(scope="col") Received
+    tbody
+      each message in messages
+        tr(class=message.isRead || 'table-primary')
+          td(title=message.from.emailAddress.address)= message.from.emailAddress.name
+          td= message.subject
+          td= message.receivedDateTime

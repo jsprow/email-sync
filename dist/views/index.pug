@@ -1,0 +1,11 @@
+extends layout
+
+block index
+  .jumbotron
+    h1 Node Graph Tutorial
+    p.lead This sample app shows how to use the Microsoft Graph API to access Outlook data from Node.js
+    if user
+      p Welcome #{user}
+    else
+      a.btn.btn-primary.btn-large(href= signInUrl) Click here to login
+
